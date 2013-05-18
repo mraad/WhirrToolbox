@@ -4,7 +4,7 @@
 
     <groupId>com.esri</groupId>
     <artifactId>WhirrToolbox</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>WhirrToolbox</name>
@@ -125,11 +125,6 @@
                             <overWriteIfNewer>true</overWriteIfNewer>
                             <includeScope>runtime</includeScope>
                             <excludeScope>test</excludeScope>
-                            <!--
-                            <excludeArtifactIds>
-                                arcobjects,hadoop-mrunit,mrunit,junit,hamcrest-core,mockito-all
-                            </excludeArtifactIds>
-                            -->
                         </configuration>
                     </execution>
                 </executions>
