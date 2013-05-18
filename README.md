@@ -29,5 +29,3 @@ Check out [this](http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#/A
     whirr.hardware-id=m1.large
     whirr.image-id=us-east-1/ami-ccb35ea5
     whirr.location-id=us-east-1
-
-Check out [this](http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#/A_quick_tour_of_managing_tools_and_toolboxes/003q00000001000000/) to see how to add a Toolbox and a Tool to ArcMap.
