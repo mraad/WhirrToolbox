@@ -3,11 +3,13 @@ WhirrToolbox
 
 [Launch CDH on EC2 from ArcMap in under 5 minutes](http://thunderheadxpler.blogspot.com/2013/05/bigdata-launch-cdh-on-ec2-from-arcmap.html)
 
+## Compiling and packaging
+
 Make sure to install **arcobjects.jar** in your local [maven repo](http://maven.apache.org/guides/introduction/introduction-to-repositories.html). You can typically find it in C:\Program Files (x86)\ArcGIS\Desktop10.1\java\lib.
 
     $ mvn install:install-file -Dfile=arcobjects.jar -DgroupId=com.esri -DartifactId=arcobjects -Dversion=10.1 -Dpackaging=jar -DgeneratePom=true
 
-## Compiling and packaging
+Clone the project and package:
 
     $ mvn clean package
 
