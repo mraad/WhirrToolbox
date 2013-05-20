@@ -3,7 +3,7 @@ WhirrToolbox
 
 [Launch CDH on EC2 from ArcMap in under 5 minutes](http://thunderheadxpler.blogspot.com/2013/05/bigdata-launch-cdh-on-ec2-from-arcmap.html)
 
-## Getting Started without packaging
+## Getting started without packaging
 
 Unzip the content of [this zip file](https://dl.dropboxusercontent.com/u/2193160/WhirrToolbox-1.1-SNAPSHOT.zip) into C:\Program Files (x86)\ArcGIS\Desktop10.1\java\lib\ext.
 
