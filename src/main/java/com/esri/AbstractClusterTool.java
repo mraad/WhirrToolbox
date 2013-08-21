@@ -13,13 +13,15 @@ import org.apache.whirr.cli.Main;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  */
@@ -63,18 +65,37 @@ public abstract class AbstractClusterTool extends AbstractTool
         final DEFile propertiesFile = (DEFile) (((IGPParameter) (parameters.getElement(0))).getValue());
         final String propertiesPath = propertiesFile.getCatalogPath();
 
+        final Properties properties = loadProperties(propertiesPath);
+
         final File[] files = getClasspathFiles(extPath);
 
         final String classpath = StringUtils.join(files, File.pathSeparatorChar);
 
         final String path = System.getProperty("java.home") + File.separatorChar + "bin" + File.separatorChar + "java";
 
-        final ProcessBuilder processBuilder = new ProcessBuilder(path, "-cp", classpath,
+        final String[] javaOpts = properties.getProperty("java.opts", "-Xms512m -Xmx1024m").split(" ");
+
+        final List<String> commands = new ArrayList<String>();
+        commands.add(path);
+        for (final String opts : javaOpts)
+        {
+            commands.add(opts);
+        }
+        commands.add("-cp");
+        commands.add(classpath);
+        commands.add(Main.class.getName());
+        commands.add(getCommand());
+        commands.add("--config");
+        commands.add(propertiesPath);
+
+        final ProcessBuilder processBuilder = new ProcessBuilder(commands/*
+                path,
+                "-cp", classpath,
                 Main.class.getName(),
                 getCommand(),
-                "--config", propertiesPath);
+                "--config", propertiesPath*/);
+        processBuilder.redirectErrorStream(true);
         final Process process = processBuilder.start();
-
         final BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         startErrorReader(errorReader, messages);
 
@@ -94,6 +115,22 @@ public abstract class AbstractClusterTool extends AbstractTool
         }
 
         process.waitFor();
+        messages.addMessage("Process exit status = " + process.exitValue());
+    }
+
+    private Properties loadProperties(final String propertiesPath) throws IOException
+    {
+        final Properties properties = new Properties();
+        final Reader reader = new FileReader(propertiesPath);
+        try
+        {
+            properties.load(reader);
+        }
+        finally
+        {
+            reader.close();
+        }
+        return properties;
     }
 
     private void startErrorReader(
@@ -116,11 +153,11 @@ public abstract class AbstractClusterTool extends AbstractTool
                 }
                 catch (AutomationException e)
                 {
-                    System.err.println(e.toString());
+                    System.out.println(e.toString());
                 }
                 catch (IOException e)
                 {
-                    System.err.println(e.toString());
+                    System.out.println(e.toString());
                 }
                 finally
                 {
@@ -157,6 +194,7 @@ public abstract class AbstractClusterTool extends AbstractTool
         return files;
     }
 
+    /*
     private File[] getFiles(
             final String extPath,
             final IGPMessages messages) throws IOException
@@ -171,6 +209,7 @@ public abstract class AbstractClusterTool extends AbstractTool
             }
         });
     }
+    */
 
     protected abstract String getCommand();
 }
